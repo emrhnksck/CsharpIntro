@@ -23,11 +23,37 @@ namespace WebApi.Controllers
             this.productService = productService;
         }
 
-        [HttpGet]
-        public List<Product> get()
+        [HttpGet("getall")]
+        public IActionResult getAll()
         {
             var result = productService.getAll();
-            return result.Data;
+            if (result.success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+            
+        [HttpPost("add")]
+        public IActionResult add(Product product)
+        {
+            var result = productService.add(product);
+            if (result.success==false)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        [HttpGet("getbyid")]
+        public IActionResult getById(int id)
+        {
+            var result = productService.getById(id);
+            if(result.success == false)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
         }
     }
 }
