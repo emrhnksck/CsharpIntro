@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -19,24 +21,49 @@ namespace Business.Concrete
             _productDao = productDao;
         }
 
-        public List<Product> getAll()
+        public IResult add(Product product)
         {
-            return _productDao.getAll();
+            if (product.ProductName.Length < 2)
+            {
+                return new ErrorResult(Messages.ProductNameInvalıd);
+            }
+            _productDao.add(product);
+            return new SuccessResult(Messages.ProductAdded);
         }
 
-        public List<Product> getAllByategoryId(int id)
+        public IDataResult<List<Product>> getAll()
         {
-            return _productDao.getAll(p => p.CategoryId == id);
+            if (DateTime.Now.Hour == 22)
+            {
+                return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
+            } 
+            return new SuccessDataResult<List<Product>>(_productDao.getAll(), Messages.ProductsListed);
         }
 
-        public List<Product> getByUnitPrice(decimal min, decimal max)
+        public IDataResult<List<Product>> getAllByategoryId(int id)
         {
-            return _productDao.getAll(p => p.UnitPrice>=min  && p.UnitPrice < max);;
+            return new SuccessDataResult<List<Product>>(_productDao.getAll(p => p.CategoryId == id));
         }
 
-        public List<ProductDetailDto> GetProductDetails()
+        public IDataResult<Product> getById(int productId)
         {
-            return _productDao.GetProductDetails();
+            return new SuccessDataResult<Product>(_productDao.get(p => p.ProductId == productId));
+        }
+
+        public IDataResult<List<Product>> getByUnitPrice(decimal min, decimal max)
+        {
+            return new SuccessDataResult<List<Product>>(_productDao.getAll(p => p.UnitPrice>=min  && p.UnitPrice < max));
+        }
+
+        public IDataResult<List<ProductDetailDto>> GetProductDetails()
+        {
+            //if (DateTime.Now.Hour == 11)
+            //{
+
+            //    return new ErrorDataResult<List<ProductDetailDto>>(Messages.MaintenanceTime);
+            //}
+
+            return new SuccessDataResult<List<ProductDetailDto>>(_productDao.GetProductDetails());
         }
     }
 }

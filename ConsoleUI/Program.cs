@@ -11,7 +11,7 @@ namespace ConsoleUI
         {
             ProductTest();
             //CategoryTest();
-
+            
         }
 
         private static void CategoryTest()
@@ -27,10 +27,22 @@ namespace ConsoleUI
         {
             ProductManager productManager = new ProductManager(new EfProductDao());
 
-            foreach (var product in productManager.GetProductDetails())
+            var result = productManager.GetProductDetails(); // SUCCES FALSE DÖNÜYOR TRUE DÖNMELİ
+
+
+
+            if (result.success==true) 
             {
-                Console.WriteLine(product.ProductName + " " + product.CategoryName);
+                foreach (var product in result.Data)
+                {
+                    Console.WriteLine(product.ProductName + " " + product.CategoryName + "    " + result.success);
+                }
             }
+            else
+            {
+                Console.WriteLine(result.message);
+            }
+
         }
     }
 }
