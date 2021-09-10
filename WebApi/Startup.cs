@@ -36,8 +36,8 @@ namespace WebApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi", Version = "v1" });
             });
-            services.AddSingleton<IProductService,ProductManager>();
-            services.AddSingleton<IProductDao, EfProductDao>();
+            //services.AddSingleton<IProductService,ProductManager>();
+            //services.AddSingleton<IProductDao, EfProductDao>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
