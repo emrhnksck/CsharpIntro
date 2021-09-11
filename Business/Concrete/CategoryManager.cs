@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -19,14 +20,14 @@ namespace Business.Concrete
             _categoryDao = categoryDao;
         }
 
-        public List<Category> getAll()
+        public IDataResult<List<Category>> getAll()
         {
-            return _categoryDao.getAll();
+            return new SuccessDataResult<List<Category>>(_categoryDao.getAll());
         }
 
-        public Category getById(int categoryId)
+        public IDataResult<Category> getById(int categoryId)
         {
-            return _categoryDao.get(c => c.CategoryId == categoryId);
+            return new SuccessDataResult<Category>(_categoryDao.get(c => c.CategoryId == categoryId));
         }
     }
 }

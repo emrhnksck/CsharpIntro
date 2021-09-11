@@ -1,4 +1,5 @@
-﻿using Entities.Concrete;
+﻿using Core.Utilities.Results;
+using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,8 @@ namespace Business.Abstract
 {
     public interface ICategoryService
     {
-        List<Category> getAll();
-        Category getById(int categoryId);
+        IDataResult<List<Category>> getAll();
+        IDataResult<Category> getById(int categoryId);
 
     }
 }

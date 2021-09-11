@@ -17,7 +17,7 @@ namespace ConsoleUI
         private static void CategoryTest()
         {
             CategoryManager categoryManager = new CategoryManager(new EfCategoryDao());
-            foreach (var category in categoryManager.getAll())
+            foreach (var category in categoryManager.getAll().Data)
             {
                 Console.WriteLine(category.CategoryName);
             }
@@ -25,7 +25,7 @@ namespace ConsoleUI
 
         private static void ProductTest()
         {
-            ProductManager productManager = new ProductManager(new EfProductDao());
+            ProductManager productManager = new ProductManager(new EfProductDao(),new CategoryManager(new EfCategoryDao()));
 
             var result = productManager.GetProductDetails(); // SUCCES FALSE DÖNÜYOR TRUE DÖNMELİ
 
